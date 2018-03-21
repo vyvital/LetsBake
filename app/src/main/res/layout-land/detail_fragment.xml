@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/exo_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_margin="4dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@drawable/ic_chevron_left_black_24dp"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:layout_alignTop="@id/exo_player_view"
+        android:layout_alignStart="@id/exo_player_view"/>
+
+    <Button
+        android:id="@+id/forward"
+        android:layout_margin="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@drawable/ic_chevron_right_black_24dp"
+        android:elevation="2dp"
+        android:textColor="@color/white"
+        android:layout_alignTop="@id/exo_player_view"
+        android:layout_alignEnd="@id/exo_player_view"/>
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:textSize="20sp"
+
+        android:textColor="@color/black"
+        android:layout_weight="4"
+        tools:text="Recipe Instructions"
+        android:visibility="gone"/>
+
+</RelativeLayout>
