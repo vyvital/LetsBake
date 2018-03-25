@@ -4,7 +4,6 @@ package vyvital.letsbake.Utils;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
+import vyvital.letsbake.MainActivity;
 import vyvital.letsbake.R;
 import vyvital.letsbake.data.Recipe;
+import vyvital.letsbake.fragments.EmptyFrag;
 import vyvital.letsbake.fragments.RecipeFrag;
 import vyvital.letsbake.fragments.StepFrag;
 
@@ -60,18 +60,34 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.MyViewHold
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(RECIPE_KEY, recipes.get(position));
-                StepFrag fragment = StepFrag.newInstance();
-                fragment.setArguments(bundle);
-                ((AppCompatActivity) mContext).getSupportFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(TAG)
-                        .replace(R.id.content, fragment)
-                        .commit();
+                if (!MainActivity.isTablet(mContext)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(RECIPE_KEY, recipes.get(position));
+                    StepFrag fragment = StepFrag.newInstance();
+                    fragment.setArguments(bundle);
+                    ((AppCompatActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .addToBackStack(TAG)
+                            .replace(R.id.content, fragment)
+                            .commit();
 
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(RECIPE_KEY, recipes.get(position));
+                    StepFrag fragment = StepFrag.newInstance();
+                    EmptyFrag empty = EmptyFrag.newInstance();
+                    fragment.setArguments(bundle);
+                    ((AppCompatActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentL, fragment)
+                            .replace(R.id.contentR, empty)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
             }
         });
+
         switch (position) {
             case 0:
                 holder.card.setCardBackgroundColor(ResourcesCompat.getColor(mContext.getResources(), R.color.green, null));

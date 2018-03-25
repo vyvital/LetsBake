@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import vyvital.letsbake.MainActivity;
 import vyvital.letsbake.R;
 import vyvital.letsbake.data.Recipe;
 import vyvital.letsbake.data.Steps;
@@ -30,7 +31,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView shortDesc;
-
 
 
         public MyViewHolder(View view) {
@@ -59,19 +59,29 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.MyViewHolder
         holder.shortDesc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Recipe recipe = new Recipe(null,null,null,null,null,steps);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(STEP_LIST,recipe);
-                bundle.putParcelable(STEP_KEY, step);
-                bundle.putInt(STEP_SIZE,steps.size());
-                DetailFrag detailFrag = DetailFrag.newInstance();
-                detailFrag.setArguments(bundle);
-                ((AppCompatActivity) mContext).getSupportFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(TAG)
-                        .replace(R.id.content, detailFrag)
-                        .commit();
 
+                Recipe recipe = new Recipe(null, null, null, null, null, steps);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(STEP_LIST, recipe);
+                bundle.putParcelable(STEP_KEY, step);
+                bundle.putInt(STEP_SIZE, steps.size());
+                if (!MainActivity.isTablet(mContext)) {
+                    DetailFrag detailFrag = DetailFrag.newInstance();
+                    detailFrag.setArguments(bundle);
+                    ((AppCompatActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.content, detailFrag)
+                            .addToBackStack(TAG)
+                            .commit();
+                } else {
+                    DetailFrag detailFrag = DetailFrag.newInstance();
+                    detailFrag.setArguments(bundle);
+                    ((AppCompatActivity) mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.contentR, detailFrag)
+                            .addToBackStack(TAG)
+                            .commit();
+                }
             }
         });
     }

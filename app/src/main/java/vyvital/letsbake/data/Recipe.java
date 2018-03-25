@@ -95,8 +95,7 @@ public class Recipe implements Parcelable {
     @SerializedName("steps")
     private List<Steps> stepsList;
 
-    public Recipe(String id, String name, String servings, String imagePath, List<Ingredients> ingredients, List<Steps> steps)
-    {
+    public Recipe(String id, String name, String servings, String imagePath, List<Ingredients> ingredients, List<Steps> steps) {
         this.id = id;
         this.name = name;
         this.servings = servings;

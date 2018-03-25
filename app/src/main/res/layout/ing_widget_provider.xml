@@ -29,8 +29,8 @@
             android:layout_margin="12dp"
             android:background="@color/transparent"
             android:text="Temp text"
-            android:textSize="14sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
 
     </LinearLayout>

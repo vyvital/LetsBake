@@ -1,8 +1,11 @@
 package vyvital.letsbake;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 
 /**
@@ -13,11 +16,19 @@ public class IngWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ing_widget_provider);
-        views.setTextViewText(R.id.ingredients_list, widgetText);
 
+        // Construct the RemoteViews object
+
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ing_widget_provider);
+        SharedPreferences mFav = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
+        String name = mFav.getString("name", "");
+        String ing = mFav.getString("ing", "");
+        views.setTextViewText(R.id.ingredients_list, ing);
+        views.setTextViewText(R.id.recipe_names, name);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.ingredients_list, pendingIntent);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -28,6 +39,7 @@ public class IngWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
+
     }
 
     @Override

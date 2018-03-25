@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Steps implements Parcelable{
+public class Steps implements Parcelable {
 
     protected Steps(Parcel in) {
         id = in.readString();
@@ -94,7 +94,7 @@ public class Steps implements Parcelable{
     private String thumbnailURL;
 
 
-    public Steps (String id, String shortDescription, String description, String videoURL, String thumbnailURL){
+    public Steps(String id, String shortDescription, String description, String videoURL, String thumbnailURL) {
         this.id = id;
         this.shortDescription = shortDescription;
         this.description = description;

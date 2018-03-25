@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import java.util.List;
 
@@ -52,6 +53,8 @@ public class RecipeFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        ((MainActivity) getActivity()).getSupportActionBar().show();
         ((MainActivity) getActivity()).setActionBarTitle("Let's Bake");
         View view = inflater.inflate(R.layout.recipe_fragment, container, false);
         recipeRV = view.findViewById(R.id.recipeRV);
@@ -63,6 +66,7 @@ public class RecipeFrag extends Fragment {
         if (testNetwork()) {
             connect();
         }
+
         return view;
     }
 
@@ -79,8 +83,7 @@ public class RecipeFrag extends Fragment {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 List<Recipe> recipes = response.body();
-                recipeRV.setAdapter(new RecipeAdapter(getActivity(),recipes));
-
+                recipeRV.setAdapter(new RecipeAdapter(getActivity(), recipes));
 
             }
 
