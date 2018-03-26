@@ -25,5 +25,5 @@ Through this project, you will:
 -----------------------
 <img src="assets/Screenshot1.png" height="600"/> <img src="assets/Screenshot2.png" height="600"/>
 <img src="assets/Screenshot3.png" height="600"/> <img src="assets/Screenshot4.png" height="600"/> 
-<img src="assets/Screenshot5.png" height="337"/>
-<img src="assets/Screenshot6.png" height="337"/>
+<img src="assets/Screenshot5.png" width="674"/>
+<img src="assets/Screenshot6.png" width="674"/>
