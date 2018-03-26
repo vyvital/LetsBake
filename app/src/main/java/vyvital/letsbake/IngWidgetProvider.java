@@ -16,13 +16,11 @@ public class IngWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-
         // Construct the RemoteViews object
-
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ing_widget_provider);
         SharedPreferences mFav = context.getSharedPreferences("favorites", Context.MODE_PRIVATE);
-        String name = mFav.getString("name", "");
-        String ing = mFav.getString("ing", "");
+        String name = mFav.getString("name", "Pick a Recipe from LetsBake app");
+        String ing = mFav.getString("ing", "Ingredients List");
         views.setTextViewText(R.id.ingredients_list, ing);
         views.setTextViewText(R.id.recipe_names, name);
 

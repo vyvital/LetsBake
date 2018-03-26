@@ -1,5 +1,6 @@
 package vyvital.letsbake;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -35,7 +36,8 @@ public class MenuActivityScreenTest {
 
     @Test
     public void clickGridViewItem_OpensOrderActivity() throws InterruptedException {
-
+      //  Thread.sleep(500);
+        Espresso.registerIdlingResources(mActivityTestRule.getActivity().getIdlingResource());
         onView(allOf(withId(R.id.recipeRV), hasFocus())).perform(RecyclerViewActions.scrollToPosition(0), click());
         onView(withId(R.id.stepsID)).perform(RecyclerViewActions
                 .actionOnItem(hasDescendant(withText("Starting prep")),

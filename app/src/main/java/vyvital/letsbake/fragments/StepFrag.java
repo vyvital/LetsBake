@@ -204,8 +204,8 @@ public class StepFrag extends Fragment {
             if (item.getIcon().getConstantState() == getResources().getDrawable(R.drawable.ic_favorite_black_24dp).getConstantState()) {
                 item.setIcon(R.drawable.ic_favorite_border_black_24dp);
                 editor.putString("id", "");
-                editor.putString("name", "Pick a Recipe");
-                editor.putString("ing", "");
+                editor.putString("name", "Pick a Recipe from LetsBake app");
+                editor.putString("ing", "Ingredients List");
                 editor.apply();
                 Toast.makeText(getContext(), "Removed Favorite Recipe", Toast.LENGTH_SHORT).show();
 

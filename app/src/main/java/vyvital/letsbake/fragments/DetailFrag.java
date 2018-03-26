@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class DetailFrag extends Fragment {
     private ImageView placeholder_img;
     private int size;
     private long position;
+    private boolean ready = true;
 
     public DetailFrag() {
 
@@ -77,6 +79,8 @@ public class DetailFrag extends Fragment {
             step = savedInstanceState.getParcelable("step");
             size = savedInstanceState.getInt("size");
             steps = recipe.getStepsList();
+            position = savedInstanceState.getLong("position");
+            ready = savedInstanceState.getBoolean("ready");
         } else {
             if (getArguments() != null) {
                 recipe = getArguments().getParcelable(STEP_LIST);
@@ -225,7 +229,8 @@ public class DetailFrag extends Fragment {
             String userAgent = Util.getUserAgent(getContext(), "Let's Bake");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            if (position != 0) mExoPlayer.seekTo(position);
+            mExoPlayer.setPlayWhenReady(ready);
         }
     }
 
@@ -243,10 +248,94 @@ public class DetailFrag extends Fragment {
         releasePlayer();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || mExoPlayer == null) {
+            if (!step.getVideoURL().equals("")) {
+                if (getMimeType(step.getVideoURL()).equals("video/mp4"))
+                    initializePlayer(Uri.parse(step.getVideoURL()));
+                else {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+                }
+            } else if (!step.getThumbnailURL().equals("")) {
+                if (getMimeType(step.getThumbnailURL()).equals("image/jpg")) {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(step.getThumbnailURL()).noFade().into(placeholder_img);
+                } else {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+                }
+            } else {
+                placeholder_img.setVisibility(View.VISIBLE);
+                mPlayerView.setVisibility(View.GONE);
+                Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+            }
+            mPlayerView.hideController();
+
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            if (!step.getVideoURL().equals("")) {
+                if (getMimeType(step.getVideoURL()).equals("video/mp4"))
+                    initializePlayer(Uri.parse(step.getVideoURL()));
+                else {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+                }
+            } else if (!step.getThumbnailURL().equals("")) {
+                if (getMimeType(step.getThumbnailURL()).equals("image/jpg")) {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(step.getThumbnailURL()).noFade().into(placeholder_img);
+                } else {
+                    placeholder_img.setVisibility(View.VISIBLE);
+                    mPlayerView.setVisibility(View.GONE);
+                    Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+                }
+            } else {
+                placeholder_img.setVisibility(View.VISIBLE);
+                mPlayerView.setVisibility(View.GONE);
+                Picasso.with(getActivity()).load(R.drawable.no_video).noFade().into(placeholder_img);
+            }
+            mPlayerView.hideController();
+
+        }
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (mExoPlayer!=null){
+        position = mExoPlayer.getCurrentPosition();
+        ready = mExoPlayer.getPlayWhenReady();}
+        outState.putBoolean("ready",ready);
+        outState.putLong("position",position);
         outState.putParcelable("recipe", recipe);
         outState.putParcelable("step", step);
         outState.putInt("size", size);

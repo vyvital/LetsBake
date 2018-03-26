@@ -3,12 +3,14 @@ package vyvital.letsbake;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 
+import vyvital.letsbake.Utils.RecipeAdapter;
 import vyvital.letsbake.fragments.RecipeFrag;
 
 public class MainActivity extends AppCompatActivity {
-
+    CountingIdlingResource idlingResource = new CountingIdlingResource("DATA_LOADER");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +21,12 @@ public class MainActivity extends AppCompatActivity {
         }
         if (savedInstanceState == null) {
             getSupportActionBar().setTitle("Let's Bake");
+            idlingResource.increment();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.content, RecipeFrag.newInstance(), "frag")
                     .commit();
+            idlingResource.decrement();
         } else {
             getSupportFragmentManager()
                     .findFragmentByTag("frag");
@@ -48,5 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    public CountingIdlingResource getIdlingResource() {
+        return idlingResource;
+    }
 }

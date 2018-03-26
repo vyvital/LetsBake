@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import android.support.test.espresso.idling.CountingIdlingResource;
 import java.util.List;
 
 import vyvital.letsbake.MainActivity;
@@ -26,6 +26,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.MyViewHold
     public static final String TAG = RecipeFrag.class.getSimpleName();
     private Context mContext;
     private List<Recipe> recipes;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
@@ -60,6 +61,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.MyViewHold
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (!MainActivity.isTablet(mContext)) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(RECIPE_KEY, recipes.get(position));
@@ -85,6 +87,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.MyViewHold
                             .commit();
 
                 }
+
             }
         });
 
@@ -117,5 +120,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.MyViewHold
     public int getItemCount() {
         return recipes.size();
     }
+
+
 
 }
